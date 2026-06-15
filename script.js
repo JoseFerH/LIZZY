@@ -237,7 +237,7 @@ function initPhrasesMechanic() {
         "Tienes una forma de ver el mundo que me resulta completamente fascinante.",
         "No te lo digo lo suficiente, pero tu sola presencia me cambia el día.",
         "Eres de esas pocas personas que dejan una huella bonita sin siquiera intentarlo.",
-        "Me alegra tanto haber coincidido contigo en esta vida (y que no me ignores tanto ;) ).",
+        "Me alegra tanto haber coincidido contigo en esta vida (A PESAR DE QUE TE CONOZCA POR POCO TIEMPO, POR AHORA).",
         "Tienes un superpoder para hacerme sonreír incluso a la distancia.",
         "Cada conversación contigo me deja con ganas de seguir conociéndote más.",
         "Ojalá supieras lo mucho que vales y el impacto que causas en los demás.",
@@ -268,6 +268,7 @@ function initPhrasesMechanic() {
     let currentPhraseIndex = -1;
     let requiredTaps = getRandomTaps();
     let currentTaps = 0;
+    let modalOpenedAt = 0;
 
     const modal = document.getElementById('message-modal');
     const modalText = document.getElementById('modal-text');
@@ -299,12 +300,16 @@ function initPhrasesMechanic() {
         currentPhraseIndex = newIndex;
         modalText.innerText = phrases[currentPhraseIndex];
         modal.classList.remove('hidden');
+        modalOpenedAt = Date.now();
 
         // Haptic feedback if supported
         if (navigator.vibrate) navigator.vibrate(50);
     }
 
     const closeAction = () => {
+        // Ignora cualquier toque/clic durante los primeros 2 segundos (2000ms)
+        if (Date.now() - modalOpenedAt < 2000) return;
+
         modal.classList.add('hidden');
         currentTaps = 0;
         requiredTaps = getRandomTaps();
