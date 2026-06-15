@@ -16,16 +16,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 6. Background Music Autoplay on first interaction
     let audioStarted = false;
-    document.addEventListener('pointerdown', () => {
+    const startAudio = () => {
         if (!audioStarted) {
             const bgMusic = document.getElementById('bg-music');
-            if (bgMusic) {
-                bgMusic.volume = 0.1; // Volumen bajo por defecto (20%)
-                bgMusic.play().catch(() => { });
+            if (bgMusic && bgMusic.paused) {
+                bgMusic.volume = 0.1;
+                bgMusic.play().then(() => {
+                    audioStarted = true;
+                    document.removeEventListener('click', startAudio);
+                    document.removeEventListener('touchstart', startAudio);
+                }).catch(() => {
+                    // Si falla por políticas del navegador, lo intentará en el siguiente toque
+                });
             }
-            audioStarted = true;
         }
-    }, { once: true, passive: true });
+    };
+    document.addEventListener('click', startAudio);
+    document.addEventListener('touchstart', startAudio, { passive: true });
 });
 
 function initBackground() {
