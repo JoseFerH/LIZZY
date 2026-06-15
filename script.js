@@ -13,26 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 5. Easter Egg (Motion Sensor)
     initEasterEgg();
-
-    // 6. Background Music Autoplay on first interaction
-    let audioStarted = false;
-    const startAudio = () => {
-        if (!audioStarted) {
-            const bgMusic = document.getElementById('bg-music');
-            if (bgMusic && bgMusic.paused) {
-                bgMusic.volume = 0.1;
-                bgMusic.play().then(() => {
-                    audioStarted = true;
-                    document.removeEventListener('click', startAudio);
-                    document.removeEventListener('touchstart', startAudio);
-                }).catch(() => {
-                    // Si falla por políticas del navegador, lo intentará en el siguiente toque
-                });
-            }
-        }
-    };
-    document.addEventListener('click', startAudio);
-    document.addEventListener('touchstart', startAudio, { passive: true });
 });
 
 function initBackground() {
@@ -332,7 +312,6 @@ function initEasterEgg() {
     const closeEasterBtn = document.getElementById('close-easter-egg');
     const playEasterBtn = document.getElementById('play-easter-audio');
     const easterAudio = document.getElementById('easter-audio');
-    const bgMusic = document.getElementById('bg-music');
 
     let isPlayingEaster = false;
     let lastUpdate = 0;
@@ -342,9 +321,7 @@ function initEasterEgg() {
             if (isPlayingEaster) {
                 easterAudio.pause();
                 playEasterBtn.innerText = "Reproducir";
-                if (bgMusic && bgMusic.paused) bgMusic.play().catch(() => { });
             } else {
-                if (bgMusic) bgMusic.pause();
                 easterAudio.play().catch(() => { });
                 playEasterBtn.innerText = "Pausa ⏸️";
             }
@@ -409,7 +386,6 @@ function initEasterEgg() {
             }
             if (playEasterBtn) playEasterBtn.innerText = "Reproducir Canción 🎵";
             isPlayingEaster = false;
-            if (bgMusic && bgMusic.paused) bgMusic.play().catch(() => { });
         });
     }
 }
