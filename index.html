@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Una Carta Especial</title>
+    <!-- Premium Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Playfair+Display:ital@0;1&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Background Containers -->
+    <div id="bg-container">
+        <div id="pattern-layer"></div>
+    </div>
+
+    <!-- Audios -->
+    <audio id="bg-music" src="tu_musica_de_fondo.mp3" loop></audio>
+    <audio id="easter-audio" src="tu_audio_sorpresa.mp3"></audio>
+
+    <!-- Easter Egg Screen -->
+    <div id="easter-egg-overlay" class="hidden">
+        <div class="easter-content">
+            <h1 class="easter-message">Solo puedo pedirte dos cosas, cuidate y nunca cambies, eres el sol más brillante
+                en el universo</h1>
+            <div class="easter-buttons">
+                <button id="play-easter-audio">🎵</button>
+                <button id="close-easter-egg">ok</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="content-wrapper">
+        <div class="glowable header-text">
+            <h1>LIZZY</h1>
+            <!-- <p></p> -->
+        </div>
+
+        <button id="enable-motion" class="glowable">Activar Magia</button>
+    </main>
+
+    <!-- Modal for Random Phrases -->
+    <div id="message-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <p id="modal-text"></p>
+            <!-- <button id="close-modal">🫸🫷</button> -->
+        </div>
+    </div>
+
+    <!-- Particle Canvas for Touch Feedback -->
+    <canvas id="particles-canvas"></canvas>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,472 @@
+:root {
+    --bg-dark: #0b0a0d;
+    --text-grey: #a0a0a0;
+    --pastel-pink: #e8b4b8;
+    --pastel-lilac: #d4c4fb;
+    --pastel-mint: #b5e5d5;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent; 
+}
+
+html, body {
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--bg-dark);
+    color: var(--text-grey);
+    font-family: 'Outfit', sans-serif;
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none; 
+}
+
+/* Background Containers */
+#bg-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Canvas */
+#particles-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    pointer-events: none; 
+}
+
+/* Content */
+.content-wrapper {
+    position: relative;
+    z-index: 5;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+}
+
+.header-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    z-index: 10;
+}
+
+.header-text h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    font-weight: 400;
+    margin-bottom: 0;
+    background: linear-gradient(to bottom right, #ffffff, #888888);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 4px;
+    opacity: 0.9;
+}
+
+.header-text p {
+    font-size: 1.2rem;
+    font-weight: 300;
+    opacity: 0.6;
+    letter-spacing: 1px;
+}
+
+/* Glow Effect */
+.glowable {
+    transition: all 0.5s ease;
+    padding: 15px;
+    border-radius: 12px;
+}
+
+.glowable.glow-active {
+    transform: scale(1.02);
+}
+
+.glowable.glow-active h1 {
+    text-shadow: 0 0 15px rgba(232, 180, 184, 0.8), 0 0 30px rgba(212, 196, 251, 0.6);
+    background: linear-gradient(to bottom right, var(--pastel-pink), var(--pastel-lilac));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: all 0.5s ease;
+}
+
+.glowable.glow-active p {
+    color: var(--pastel-mint);
+    opacity: 1;
+    text-shadow: 0 0 10px rgba(181, 229, 213, 0.5);
+    transition: all 0.5s ease;
+}
+
+/* Motion Button */
+#enable-motion {
+    margin-top: 40px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(160, 160, 160, 0.3);
+    color: var(--text-grey);
+    padding: 12px 25px;
+    border-radius: 30px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem;
+    cursor: pointer;
+    display: none;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+}
+
+#enable-motion.glow-active {
+    color: #fff;
+    border-color: var(--pastel-lilac);
+    box-shadow: 0 0 15px rgba(212, 196, 251, 0.5), inset 0 0 10px rgba(212, 196, 251, 0.2);
+    background: rgba(212, 196, 251, 0.1);
+    transform: scale(1.05);
+}
+
+/* Modal */
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(5, 4, 7, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.modal-content {
+    background: linear-gradient(145deg, rgba(20, 18, 24, 0.9), rgba(11, 10, 13, 0.9));
+    padding: 50px 35px;
+    border-radius: 30px;
+    border: 1px solid rgba(212, 196, 251, 0.2);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(232,180,184,0.15);
+    text-align: center;
+    max-width: 88%;
+    transform: translateY(0) scale(1);
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-overlay.hidden .modal-content {
+    transform: translateY(20px) scale(0.9);
+}
+
+#modal-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: #ffffff;
+    line-height: 1.5;
+    margin-bottom: 40px;
+    font-style: italic;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+#close-modal {
+    background: linear-gradient(135deg, var(--pastel-pink), var(--pastel-lilac));
+    border: none;
+    color: var(--bg-dark);
+    padding: 15px 35px;
+    border-radius: 30px;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(212,196,251,0.3);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#close-modal:active {
+    transform: scale(0.96);
+    box-shadow: 0 4px 15px rgba(212,196,251,0.2);
+}
+
+/* Easter Egg */
+#easter-egg-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 30;
+    background: linear-gradient(45deg, var(--pastel-pink), var(--pastel-lilac), var(--pastel-mint), var(--pastel-pink));
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    transition: opacity 2s ease-in-out;
+}
+
+#easter-egg-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.easter-content {
+    padding: 40px;
+    text-align: center;
+    color: #ffffff;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    max-width: 90%;
+}
+
+.easter-message {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    line-height: 1.3;
+    margin-bottom: 50px;
+    font-weight: 400;
+}
+
+#close-easter-egg {
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.6);
+    color: #ffffff;
+    padding: 12px 25px;
+    border-radius: 25px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#close-easter-egg:active {
+    background: rgba(255,255,255,0.4);
+    transform: scale(0.95);
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Background Animations */
+
+/* Stars */
+.star {
+    position: absolute;
+    background: #ffffff;
+    border-radius: 50%;
+    opacity: 0.3;
+    animation: twinkle linear infinite;
+    box-shadow: 0 0 5px #ffffff;
+}
+@keyframes twinkle {
+    0% { opacity: 0.05; transform: scale(0.8); }
+    50% { opacity: 0.6; transform: scale(1.5); }
+    100% { opacity: 0.05; transform: scale(0.8); }
+}
+
+/* Fog */
+.fog {
+    position: absolute;
+    bottom: -15%;
+    left: -50%;
+    width: 200%;
+    height: 60%;
+    background: radial-gradient(ellipse at center, rgba(160,160,160,0.08) 0%, rgba(11,10,13,0) 70%);
+    filter: blur(30px);
+    animation: drift 25s ease-in-out infinite alternate;
+}
+@keyframes drift {
+    0% { transform: translateX(-10%) scale(1); }
+    100% { transform: translateX(10%) scale(1.1); }
+}
+
+/* Rain */
+.particle-rain {
+    position: absolute;
+    width: 1px;
+    height: 30px;
+    background: linear-gradient(to bottom, rgba(160,160,160,0), rgba(160,160,160,0.3));
+    animation: fall linear infinite;
+}
+@keyframes fall {
+    0% { transform: translateY(-10vh); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(110vh); opacity: 0; }
+}
+
+/* 10 Adaptive Patterns & Borders */
+#pattern-layer {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 2; /* Above animated bg, below canvas */
+    pointer-events: none;
+}
+
+/* 1. Fleur-de-lis Tile */
+.bg-theme-1 {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23141218' d='M50 15 c5 15 15 25 10 40 c-3 8-10 0-10-15 c0 15-7 23-10 15 c-5-15 5-25 10-40 z M25 55 c15-5 25-5 40 0 c5 10-10 20-20 20 c-10 0-25-10-20-20 z M50 35 c8 8 15 25 0 35 c-15-10-8-27 0-35 z M50 15 L50 90 M25 55 L75 55' stroke='%23181620' stroke-width='1'/%3E%3C/svg%3E");
+    background-size: 80px 80px;
+}
+
+/* 2. Gothic Border Frame */
+.bg-theme-2 {
+    border: 1px solid #444;
+    box-shadow: inset 0 0 0 5px var(--bg-dark), inset 0 0 0 6px #333;
+    transform: scale(0.92);
+}
+.bg-theme-2::before, .bg-theme-2::after {
+    content: ''; position: absolute; top: -15px; bottom: -15px; left: -15px; right: -15px;
+    border: 1px solid #555;
+    clip-path: polygon(0 20px, 20px 0, calc(100% - 20px) 0, 100% 20px, 100% calc(100% - 20px), calc(100% - 20px) 100%, 20px 100%, 0 calc(100% - 20px));
+}
+.bg-theme-2::after {
+    top: 5px; bottom: 5px; left: 5px; right: 5px;
+    border: 1px solid #333;
+    clip-path: polygon(0 30px, 30px 0, calc(100% - 30px) 0, 100% 30px, 100% calc(100% - 30px), calc(100% - 30px) 100%, 30px 100%, 0 calc(100% - 30px));
+}
+
+/* 3. Thorny Vines Border */
+.bg-theme-3 {
+    border: 30px solid transparent;
+    border-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90'%3E%3Cpath d='M0 45 Q30 40 45 0 Q50 35 90 45 Q60 50 45 90 Q40 55 0 45 M20 45 L10 20 M70 45 L80 70' fill='none' stroke='%23dddddd' stroke-width='1'/%3E%3C/svg%3E") 30 round;
+    transform: scale(0.95);
+    opacity: 0.5;
+}
+
+/* 4. Vintage Damask Tile */
+.bg-theme-4 {
+    background-image: radial-gradient(circle at 50% 50%, #1a1820 0%, transparent 60%),
+                      radial-gradient(circle at 0 0, #1a1820 0%, transparent 40%),
+                      radial-gradient(circle at 100% 100%, #1a1820 0%, transparent 40%);
+    background-size: 100px 100px;
+}
+
+/* 5. Double Celtic Frame */
+.bg-theme-5 {
+    border: 3px double #555;
+    border-radius: 15px;
+    transform: scale(0.92);
+}
+.bg-theme-5::before {
+    content: ''; position: absolute; top: 10px; bottom: 10px; left: 10px; right: 10px;
+    border: 1px solid #444;
+    border-radius: 25px;
+}
+.bg-theme-5::after {
+    content: ''; position: absolute; top: -8px; bottom: -8px; left: -8px; right: -8px;
+    border: 1px solid #333;
+    border-radius: 5px;
+}
+
+/* 6. Diamond Lattice Grid */
+.bg-theme-6 {
+    background-image: linear-gradient(45deg, #16141a 25%, transparent 25%, transparent 75%, #16141a 75%, #16141a),
+                      linear-gradient(45deg, #16141a 25%, transparent 25%, transparent 75%, #16141a 75%, #16141a);
+    background-position: 0 0, 30px 30px;
+    background-size: 60px 60px;
+}
+
+/* 7. Art Deco Frame */
+.bg-theme-7 {
+    border-top: 4px solid #666;
+    border-bottom: 4px solid #666;
+    transform: scale(0.9);
+}
+.bg-theme-7::before {
+    content: ''; position: absolute; top: -15px; bottom: -15px; left: 15px; right: 15px;
+    border-left: 2px solid #555;
+    border-right: 2px solid #555;
+}
+.bg-theme-7::after {
+    content: ''; position: absolute; top: -25px; bottom: -25px; left: 35px; right: 35px;
+    border-left: 1px solid #444;
+    border-right: 1px solid #444;
+}
+
+/* 8. Dark Polka / Stardust Tile */
+.bg-theme-8 {
+    background-image: radial-gradient(#2a2a2a 1px, transparent 1px), radial-gradient(#1a1a1a 1px, transparent 1px);
+    background-position: 0 0, 20px 20px;
+    background-size: 40px 40px;
+}
+
+/* 9. Elegant Lace Border */
+.bg-theme-9 {
+    border-top: 25px solid transparent;
+    border-bottom: 25px solid transparent;
+    border-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='20'%3E%3Ccircle cx='30' cy='10' r='8' fill='none' stroke='%23444' stroke-width='2'/%3E%3Ccircle cx='10' cy='10' r='4' fill='none' stroke='%23333' stroke-width='1'/%3E%3Ccircle cx='50' cy='10' r='4' fill='none' stroke='%23333' stroke-width='1'/%3E%3C/svg%3E") 25 round;
+    transform: scale(0.95);
+}
+
+/* 10. Tribal Corner Angles */
+.bg-theme-10 {
+    background: 
+      linear-gradient(to right, #666 40px, transparent 40px) top left no-repeat,
+      linear-gradient(to bottom, #666 40px, transparent 40px) top left no-repeat,
+      linear-gradient(to left, #666 40px, transparent 40px) top right no-repeat,
+      linear-gradient(to bottom, #666 40px, transparent 40px) top right no-repeat,
+      linear-gradient(to right, #666 40px, transparent 40px) bottom left no-repeat,
+      linear-gradient(to top, #666 40px, transparent 40px) bottom left no-repeat,
+      linear-gradient(to left, #666 40px, transparent 40px) bottom right no-repeat,
+      linear-gradient(to top, #666 40px, transparent 40px) bottom right no-repeat;
+    background-size: 100% 100%;
+    transform: scale(0.92);
+}
+.bg-theme-10::after {
+    content: ''; position: absolute; top: 10px; bottom: 10px; left: 10px; right: 10px;
+    border: 1px solid #333;
+}
+
+/* Easter Buttons */
+.easter-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#play-easter-audio {
+    background: rgba(255,255,255,0.3);
+    border: 1px solid rgba(255,255,255,0.8);
+    color: #ffffff;
+    padding: 12px 25px;
+    border-radius: 25px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+#play-easter-audio:active {
+    background: rgba(255,255,255,0.5);
+    transform: scale(0.95);
+}
