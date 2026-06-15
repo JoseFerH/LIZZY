@@ -310,7 +310,6 @@ function initPhrasesMechanic() {
     };
 
     if (closeBtn) closeBtn.addEventListener('click', closeAction);
-    modal.addEventListener('click', closeAction); // Allow closing by tapping anywhere on the modal
 }
 
 function initEasterEgg() {
