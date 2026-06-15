@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!audioStarted) {
             const bgMusic = document.getElementById('bg-music');
             if (bgMusic) {
-                bgMusic.volume = 0.2; // Volumen bajo por defecto (20%)
+                bgMusic.volume = 0.1; // Volumen bajo por defecto (20%)
                 bgMusic.play().catch(() => { });
             }
             audioStarted = true;
@@ -272,6 +272,7 @@ function initPhrasesMechanic() {
     const modal = document.getElementById('message-modal');
     const modalText = document.getElementById('modal-text');
     const closeBtn = document.getElementById('close-modal');
+    const modalContent = modal.querySelector('.modal-content');
 
     function getRandomTaps() {
         return Math.floor(Math.random() * (6 - 3 + 1)) + 3; // 3 to 6
@@ -310,8 +311,7 @@ function initPhrasesMechanic() {
     };
 
     if (closeBtn) closeBtn.addEventListener('click', closeAction);
-    modal.addEventListener('click', closeAction); // Allow closing by tapping anywhere on the modal
-
+    if (modalContent) modalContent.addEventListener('click', closeAction); // Close only when tapping the message box
 }
 
 function initEasterEgg() {
@@ -329,12 +329,12 @@ function initEasterEgg() {
         playEasterBtn.addEventListener('click', () => {
             if (isPlayingEaster) {
                 easterAudio.pause();
-                playEasterBtn.innerText = "Reproducir Canción 🎵";
+                playEasterBtn.innerText = "Reproducir";
                 if (bgMusic && bgMusic.paused) bgMusic.play().catch(() => { });
             } else {
                 if (bgMusic) bgMusic.pause();
                 easterAudio.play().catch(() => { });
-                playEasterBtn.innerText = "Pausar Canción ⏸️";
+                playEasterBtn.innerText = "Pausa ⏸️";
             }
             isPlayingEaster = !isPlayingEaster;
         });
