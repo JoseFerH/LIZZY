@@ -246,7 +246,7 @@ function initPhrasesMechanic() {
         "No sé qué hiciste, pero te ganaste mi cariño en un tiempo récord.",
         "Me gusta la calma que transmites, incluso cuando todo alrededor es un caos.",
         "Siempre encuentro una buena razón para querer hablar contigo un rato más.",
-        "Eres un misterio hermoso del que nunca me canso de aprender.",
+        "Eres un misterio del que nunca me canso de aprender.",
         "Gracias por ser esa persona con la que puedo ser yo mismo sin filtros.",
         "Tu autenticidad es lo que más me atrae de tu forma de ser.",
         "Sé que tienes mil cosas que hacer, pero valoro cada segundo que me dedicas.",
@@ -255,14 +255,15 @@ function initPhrasesMechanic() {
         "Coincidir contigo es, por mucho, de las mejores cosas que me han pasado.",
         "Eres esa mezcla perfecta entre ternura, fuerza y un poquito de misterio.",
         "No importa qué tan malo sea el día, hablar contigo siempre lo arregla.",
-        "Me fascina tu mente, tienes una inteligencia que atrapa desde el primer momento.",
+        "Me fascina la locura de tu mente, tienes una inteligencia que atrapa desde el primer momento.",
         "Espero que la vida te devuelva toda la alegría que tú le regalas al mundo.",
         "Me haces querer ser una mejor versión de mí, solo por estar a tu altura.",
         "Contigo el tiempo vuela, y siempre me quedo con la sensación de que faltó más.",
         "Admiro tu resiliencia, eres mucho más fuerte de lo que te das crédito.",
         "No dejes de brillar, el mundo necesita más personas con tu esencia.",
         "Me guardo cada detalle que me cuentas como si fuera un tesoro.",
-        "Haces que los días ordinarios se sientan un poquito más extraordinarios."
+        "Haces que los días ordinarios se sientan un poquito más extraordinarios.",
+        "Quizas no me haz quitado la pañoleta, pero quien quita algún día..."
     ];
     let currentPhraseIndex = -1;
     let requiredTaps = getRandomTaps();
