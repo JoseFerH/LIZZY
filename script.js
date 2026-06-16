@@ -13,7 +13,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 5. Easter Egg (Motion Sensor)
     initEasterEgg();
+
+    // 6. Welcome Screen & Audio Initialization
+    initWelcomeScreen();
 });
+
+function initWelcomeScreen() {
+    const welcomeScreen = document.getElementById('welcome-screen');
+    const enterBtn = document.getElementById('enter-btn');
+    const bgMusic = document.getElementById('bg-music');
+
+    if (enterBtn && welcomeScreen) {
+        enterBtn.addEventListener('click', () => {
+            welcomeScreen.classList.add('hidden');
+            if (bgMusic) {
+                bgMusic.volume = 0.1; // Low volume
+                bgMusic.play().catch(() => {});
+            }
+        });
+    }
+}
 
 function initBackground() {
     const bgContainer = document.getElementById('bg-container');

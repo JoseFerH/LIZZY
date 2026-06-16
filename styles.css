@@ -470,3 +470,64 @@ html, body {
     background: rgba(255,255,255,0.5);
     transform: scale(0.95);
 }
+
+/* Welcome Screen */
+.welcome-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background-color: var(--bg-dark);
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 1s ease, visibility 1s;
+}
+
+.welcome-overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.welcome-content {
+    text-align: center;
+    padding: 3rem 2rem;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.welcome-content h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    color: var(--pastel-pink);
+    margin-bottom: 1rem;
+}
+
+.welcome-content p {
+    font-family: 'Outfit', sans-serif;
+    color: var(--text-grey);
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+#enter-btn {
+    background: transparent;
+    border: 1px solid var(--pastel-pink);
+    color: var(--pastel-pink);
+    padding: 15px 40px;
+    border-radius: 30px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+#enter-btn:active {
+    background: var(--pastel-pink);
+    color: var(--bg-dark);
+    transform: scale(0.95);
+}

@@ -13,12 +13,22 @@
 </head>
 
 <body>
+    <!-- Welcome Screen -->
+    <div id="welcome-screen" class="welcome-overlay">
+        <div class="welcome-content glowable">
+            <h1>Bienvenida de Nuevo</h1>
+            <!-- <p>Toca para entrar y descubrir la magia</p> -->
+            <button id="enter-btn">Entrar ✨</button>
+        </div>
+    </div>
+
     <!-- Background Containers -->
     <div id="bg-container">
         <div id="pattern-layer"></div>
     </div>
 
     <!-- Audios -->
+    <audio id="bg-music" src="tu_musica_de_fondo.mp3" loop></audio>
     <audio id="easter-audio" src="tu_audio_sorpresa.mp3"></audio>
 
     <!-- Easter Egg Screen -->
