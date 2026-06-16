@@ -28,7 +28,7 @@ function initWelcomeScreen() {
             welcomeScreen.classList.add('hidden');
             if (bgMusic) {
                 bgMusic.volume = 0.1; // Low volume
-                bgMusic.play().catch(() => {});
+                bgMusic.play().catch(() => { });
             }
         });
     }
@@ -243,7 +243,7 @@ function initPhrasesMechanic() {
         "Tienes una forma de ver el mundo que me resulta completamente fascinante.",
         "No te lo digo lo suficiente, pero tu sola presencia me cambia el día.",
         "Eres de esas pocas personas que dejan una huella bonita sin siquiera intentarlo.",
-        "Me alegra tanto haber coincidido contigo en esta vida (A PESAR DE QUE TE CONOZCA POR POCO TIEMPO, POR AHORA).",
+        "Me alegra tanto haber coincidido contigo en esta vida (A PESAR DE QUE TE CONOZCA POR POCO TIEMPO).",
         "Tienes un superpoder para hacerme sonreír incluso a la distancia.",
         "Cada conversación contigo me deja con ganas de seguir conociéndote más.",
         "Ojalá supieras lo mucho que vales y el impacto que causas en los demás.",
@@ -339,7 +339,7 @@ function initEasterEgg() {
         playEasterBtn.addEventListener('click', () => {
             if (isPlayingEaster) {
                 easterAudio.pause();
-                playEasterBtn.innerText = "Reproducir";
+                playEasterBtn.innerText = "Reproducir 🎵";
             } else {
                 easterAudio.play().catch(() => { });
                 playEasterBtn.innerText = "Pausa ⏸️";
@@ -403,7 +403,7 @@ function initEasterEgg() {
                 easterAudio.pause();
                 easterAudio.currentTime = 0;
             }
-            if (playEasterBtn) playEasterBtn.innerText = "Reproducir Canción 🎵";
+            if (playEasterBtn) playEasterBtn.innerText = "Reproducir 🎵";
             isPlayingEaster = false;
         });
     }
