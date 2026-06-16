@@ -175,9 +175,26 @@ function initParticles() {
         }
     }
 
-    function animate() {
+    let isPointerDown = false;
+    let pointerX = 0;
+    let pointerY = 0;
+    let lastSpawnTime = 0;
+    let isNextEffectBalloons = false;
+
+    function animate(time) {
         ctx.clearRect(0, 0, width, height);
         ctx.shadowBlur = 0;
+
+        if (isPointerDown) {
+            if (time - lastSpawnTime > 100) {
+                if (isNextEffectBalloons) {
+                    createBalloons(pointerX, pointerY, true);
+                } else {
+                    createBurst(pointerX, pointerY, true);
+                }
+                lastSpawnTime = time;
+            }
+        }
 
         for (let i = particles.length - 1; i >= 0; i--) {
             particles[i].update();
@@ -188,32 +205,51 @@ function initParticles() {
         }
         requestAnimationFrame(animate);
     }
-    animate();
+    requestAnimationFrame(animate);
 
-    function createBurst(x, y) {
-        for (let i = 0; i < 20; i++) {
+    function createBurst(x, y, isContinuous = false) {
+        const count = isContinuous ? 3 : 20;
+        for (let i = 0; i < count; i++) {
             particles.push(new Particle(x, y));
         }
     }
 
-    function createBalloons(x, y) {
-        const count = Math.floor(Math.random() * 4) + 4; // 4 to 7 balloons
+    function createBalloons(x, y, isContinuous = false) {
+        const count = isContinuous ? 1 : (Math.floor(Math.random() * 4) + 4);
         for (let i = 0; i < count; i++) {
             particles.push(new Balloon(x, y));
         }
     }
 
-    let isNextEffectBalloons = false;
-
     // Touch / Click event (Zero Latency)
     document.addEventListener('pointerdown', (e) => {
+        isPointerDown = true;
+        pointerX = e.clientX;
+        pointerY = e.clientY;
+        lastSpawnTime = performance.now();
+
         if (isNextEffectBalloons) {
-            createBalloons(e.clientX, e.clientY);
+            createBalloons(e.clientX, e.clientY, false);
         } else {
-            createBurst(e.clientX, e.clientY);
+            createBurst(e.clientX, e.clientY, false);
         }
-        isNextEffectBalloons = !isNextEffectBalloons;
     }, { passive: true });
+
+    document.addEventListener('pointermove', (e) => {
+        if (isPointerDown) {
+            pointerX = e.clientX;
+            pointerY = e.clientY;
+        }
+    }, { passive: true });
+
+    const handlePointerEnd = () => {
+        if (isPointerDown) {
+            isNextEffectBalloons = !isNextEffectBalloons;
+            isPointerDown = false;
+        }
+    };
+    document.addEventListener('pointerup', handlePointerEnd);
+    document.addEventListener('pointercancel', handlePointerEnd);
 }
 
 function initGlowEffects() {

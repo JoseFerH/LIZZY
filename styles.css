@@ -531,3 +531,28 @@ html, body {
     color: var(--bg-dark);
     transform: scale(0.95);
 }
+
+/* Mobile Portrait Optimizations */
+@media screen and (max-width: 768px) and (orientation: portrait) {
+    .modal-content {
+        min-height: 45vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 60px 25px;
+    }
+
+    #modal-text {
+        font-size: 2.2rem;
+        margin-bottom: 50px;
+        line-height: 1.6;
+    }
+
+    #close-modal {
+        font-size: 1.4rem;
+        padding: 20px 40px;
+        width: 90%;
+        max-width: 300px;
+    }
+}
