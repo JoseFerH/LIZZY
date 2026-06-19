@@ -380,16 +380,24 @@ function initEasterEgg() {
     const closeEasterBtn = document.getElementById('close-easter-egg');
     const playEasterBtn = document.getElementById('play-easter-audio');
     const easterAudio = document.getElementById('easter-audio');
+    const explanationBtn = document.getElementById('explanation-btn');
+    const explanationAudio = document.getElementById('explanation-audio');
 
     let isPlayingEaster = false;
+    let isPlayingExplanation = false;
     let lastUpdate = 0;
 
     if (playEasterBtn && easterAudio) {
         playEasterBtn.addEventListener('click', () => {
             if (isPlayingEaster) {
                 easterAudio.pause();
-                playEasterBtn.innerText = "Reproducir 🎵";
+                playEasterBtn.innerText = "🎵";
             } else {
+                if (isPlayingExplanation) {
+                    explanationAudio.pause();
+                    explanationBtn.innerText = "Explicación";
+                    isPlayingExplanation = false;
+                }
                 easterAudio.play().catch(() => { });
                 playEasterBtn.innerText = "Pausa ⏸️";
             }
@@ -452,8 +460,32 @@ function initEasterEgg() {
                 easterAudio.pause();
                 easterAudio.currentTime = 0;
             }
-            if (playEasterBtn) playEasterBtn.innerText = "Reproducir 🎵";
+            if (explanationAudio) {
+                explanationAudio.pause();
+                explanationAudio.currentTime = 0;
+            }
+            if (playEasterBtn) playEasterBtn.innerText = "🎵";
+            if (explanationBtn) explanationBtn.innerText = "Explicación";
             isPlayingEaster = false;
+            isPlayingExplanation = false;
+        });
+    }
+
+    if (explanationBtn && explanationAudio) {
+        explanationBtn.addEventListener('click', () => {
+            if (isPlayingExplanation) {
+                explanationAudio.pause();
+                explanationBtn.innerText = "Explicación";
+            } else {
+                if (isPlayingEaster) {
+                    easterAudio.pause();
+                    playEasterBtn.innerText = "🎵";
+                    isPlayingEaster = false;
+                }
+                explanationAudio.play().catch(() => { });
+                explanationBtn.innerText = "Pausa ⏸️";
+            }
+            isPlayingExplanation = !isPlayingExplanation;
         });
     }
 }
