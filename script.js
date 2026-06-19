@@ -305,7 +305,20 @@ function initPhrasesMechanic() {
         "No dejes de brillar, el mundo necesita más personas con tu esencia.",
         "Me guardo cada detalle que me cuentas como si fuera un tesoro.",
         "Haces que los días ordinarios se sientan un poquito más extraordinarios.",
-        "Quizas no me haz quitado la pañoleta, pero quien quita algún día..."
+        "Quizas no me haz quitado la pañoleta, pero quien quita algún día...",
+        "Tienes una mirada que dice muchísimo más que cualquier frase bonita.",
+        "Eres el recordatorio de que siempre hay un motivo para sonreír al final del día.",
+        "Me gusta el caos que generas en mi mente cada vez que apareces.",
+        "Tienes una forma de ser tan magnética que es imposible pasar de largo.",
+        "Gracias por ser esa luz que ilumina incluso cuando todo parece un poco oscuro.",
+        "Me fascina descubrir detalles nuevos de ti cada vez que platicamos.",
+        "Tienes un corazón valiente, de esos que ya casi no se encuentran.",
+        "Haces que todo sea un poquito más interesante desde que estás cerca.",
+        "Me quedo con las ganas de saber más de ti, siempre dejas el listón muy alto.",
+        "Eres esa persona con la que el tiempo nunca se siente como una pérdida.",
+        "Admiro tu madurez, pero me encanta cuando dejas salir tu lado más divertido.",
+        "Espero estar logrando alegrar tus días al menos un poquito de lo que tú alegras los míos.",
+        "Simplemente gracias por ser tú, tal cual eres, sin quitarle ni ponerle nada."
     ];
     let currentPhraseIndex = -1;
     let requiredTaps = getRandomTaps();
