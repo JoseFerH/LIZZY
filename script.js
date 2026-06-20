@@ -560,21 +560,24 @@ function initEasterEgg() {
             isPlayingLongAudio = !isPlayingLongAudio;
         });
 
+        let isDraggingSlider = false;
+
+        longAudioProgress.addEventListener('mousedown', () => isDraggingSlider = true);
+        longAudioProgress.addEventListener('touchstart', () => isDraggingSlider = true, { passive: true });
+        longAudioProgress.addEventListener('mouseup', () => isDraggingSlider = false);
+        longAudioProgress.addEventListener('touchend', () => isDraggingSlider = false);
+
         longAudio.addEventListener('timeupdate', () => {
-            if (longAudio.duration) {
+            if (longAudio.duration && !isDraggingSlider) {
                 const progressPercent = (longAudio.currentTime / longAudio.duration) * 100;
-                longAudioProgress.style.width = `${progressPercent}%`;
+                longAudioProgress.value = progressPercent;
             }
         });
 
-        if (longAudioProgressContainer) {
-            longAudioProgressContainer.addEventListener('click', (e) => {
-                const width = longAudioProgressContainer.clientWidth;
-                const clickX = e.offsetX;
-                if (longAudio.duration) {
-                    longAudio.currentTime = (clickX / width) * longAudio.duration;
-                }
-            });
-        }
+        longAudioProgress.addEventListener('input', () => {
+            if (longAudio.duration) {
+                longAudio.currentTime = (longAudioProgress.value / 100) * longAudio.duration;
+            }
+        });
     }
 }
