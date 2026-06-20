@@ -31,6 +31,7 @@
     <audio id="bg-music" src="tu_musica_de_fondo.mp3" loop></audio>
     <audio id="easter-audio" src="tu_audio_sorpresa.mp4"></audio>
     <audio id="explanation-audio" src="tu_audio_explicacion.mp4"></audio>
+    <audio id="long-audio" src="tu_audio_largo.mp4"></audio>
 
     <!-- Easter Egg Screen -->
     <div id="easter-egg-overlay" class="hidden">
@@ -41,7 +42,15 @@
                 <button id="play-easter-audio">🎵</button>
                 <button id="close-easter-egg">ok</button>
             </div>
-            <!-- <button id="explanation-btn" class="easter-extra-btn">Gracias</button> -->
+            <button id="explanation-btn" class="easter-extra-btn" style="display: none;">Gracias</button>
+
+            <!-- Long Audio UI -->
+            <div class="long-audio-wrapper">
+                <!-- <button id="play-long-audio" class="easter-extra-btn">🎧</button> -->
+                <div class="progress-container" id="long-audio-progress-container">
+                    <div class="progress-bar" id="long-audio-progress"></div>
+                </div>
+            </div>
         </div>
     </div>
 

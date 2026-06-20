@@ -320,6 +320,14 @@ function initPhrasesMechanic() {
         "Espero estar logrando alegrar tus días al menos un poquito de lo que tú alegras los míos.",
         "Simplemente gracias por ser tú, tal cual eres, sin quitarle ni ponerle nada."
     ];
+
+    window.TOTAL_PHRASES = phrases.length;
+    window.RECORD_PHRASE_VIEW = function(index) {
+        let counts = JSON.parse(localStorage.getItem('lizzy_phrase_counts')) || {};
+        counts[index] = (counts[index] || 0) + 1;
+        localStorage.setItem('lizzy_phrase_counts', JSON.stringify(counts));
+    };
+
     let currentPhraseIndex = -1;
     let requiredTaps = getRandomTaps();
     let currentTaps = 0;
@@ -353,6 +361,7 @@ function initPhrasesMechanic() {
         } while (newIndex === currentPhraseIndex && phrases.length > 1);
 
         currentPhraseIndex = newIndex;
+        if (window.RECORD_PHRASE_VIEW) window.RECORD_PHRASE_VIEW(currentPhraseIndex);
         modalText.innerText = phrases[currentPhraseIndex];
         modal.classList.remove('hidden');
         modalOpenedAt = Date.now();
@@ -382,9 +391,15 @@ function initEasterEgg() {
     const easterAudio = document.getElementById('easter-audio');
     const explanationBtn = document.getElementById('explanation-btn');
     const explanationAudio = document.getElementById('explanation-audio');
+    
+    const longAudioBtn = document.getElementById('play-long-audio');
+    const longAudio = document.getElementById('long-audio');
+    const longAudioProgress = document.getElementById('long-audio-progress');
+    const longAudioProgressContainer = document.getElementById('long-audio-progress-container');
 
     let isPlayingEaster = false;
     let isPlayingExplanation = false;
+    let isPlayingLongAudio = false;
     let lastUpdate = 0;
 
     if (playEasterBtn && easterAudio) {
@@ -395,8 +410,13 @@ function initEasterEgg() {
             } else {
                 if (isPlayingExplanation) {
                     explanationAudio.pause();
-                    explanationBtn.innerText = "Explicación";
+                    explanationBtn.innerText = "Gracias";
                     isPlayingExplanation = false;
+                }
+                if (isPlayingLongAudio) {
+                    longAudio.pause();
+                    longAudioBtn.innerText = "Escuchar 🎧";
+                    isPlayingLongAudio = false;
                 }
                 easterAudio.play().catch(() => { });
                 playEasterBtn.innerText = "Pausa ⏸️";
@@ -451,6 +471,24 @@ function initEasterEgg() {
     function triggerEasterEgg() {
         easterEgg.classList.remove('hidden');
         if (navigator.vibrate) navigator.vibrate([100, 50, 100, 50, 200]);
+
+        // Secret unlock check: All phrases must be seen at least 3 times
+        const explanationBtn = document.getElementById('explanation-btn');
+        if (explanationBtn && window.TOTAL_PHRASES) {
+            let counts = JSON.parse(localStorage.getItem('lizzy_phrase_counts')) || {};
+            let allSeenThreeTimes = true;
+            for (let i = 0; i < window.TOTAL_PHRASES; i++) {
+                if (!counts[i] || counts[i] < 3) {
+                    allSeenThreeTimes = false;
+                    break;
+                }
+            }
+            if (allSeenThreeTimes) {
+                explanationBtn.style.display = 'block';
+            } else {
+                explanationBtn.style.display = 'none';
+            }
+        }
     }
 
     if (closeEasterBtn) {
@@ -464,10 +502,16 @@ function initEasterEgg() {
                 explanationAudio.pause();
                 explanationAudio.currentTime = 0;
             }
+            if (longAudio) {
+                longAudio.pause();
+                longAudio.currentTime = 0;
+            }
             if (playEasterBtn) playEasterBtn.innerText = "🎵";
-            if (explanationBtn) explanationBtn.innerText = "Explicación";
+            if (explanationBtn) explanationBtn.innerText = "Gracias";
+            if (longAudioBtn) longAudioBtn.innerText = "Escuchar 🎧";
             isPlayingEaster = false;
             isPlayingExplanation = false;
+            isPlayingLongAudio = false;
         });
     }
 
@@ -475,17 +519,62 @@ function initEasterEgg() {
         explanationBtn.addEventListener('click', () => {
             if (isPlayingExplanation) {
                 explanationAudio.pause();
-                explanationBtn.innerText = "Explicación";
+                explanationBtn.innerText = "Gracias";
             } else {
                 if (isPlayingEaster) {
                     easterAudio.pause();
                     playEasterBtn.innerText = "🎵";
                     isPlayingEaster = false;
                 }
+                if (isPlayingLongAudio) {
+                    longAudio.pause();
+                    longAudioBtn.innerText = "Escuchar 🎧";
+                    isPlayingLongAudio = false;
+                }
                 explanationAudio.play().catch(() => { });
                 explanationBtn.innerText = "Pausa ⏸️";
             }
             isPlayingExplanation = !isPlayingExplanation;
         });
+    }
+
+    if (longAudioBtn && longAudio && longAudioProgress) {
+        longAudioBtn.addEventListener('click', () => {
+            if (isPlayingLongAudio) {
+                longAudio.pause();
+                longAudioBtn.innerText = "Escuchar 🎧";
+            } else {
+                if (isPlayingEaster) {
+                    easterAudio.pause();
+                    playEasterBtn.innerText = "🎵";
+                    isPlayingEaster = false;
+                }
+                if (isPlayingExplanation) {
+                    explanationAudio.pause();
+                    explanationBtn.innerText = "Gracias";
+                    isPlayingExplanation = false;
+                }
+                longAudio.play().catch(() => {});
+                longAudioBtn.innerText = "Pausa ⏸️";
+            }
+            isPlayingLongAudio = !isPlayingLongAudio;
+        });
+
+        longAudio.addEventListener('timeupdate', () => {
+            if (longAudio.duration) {
+                const progressPercent = (longAudio.currentTime / longAudio.duration) * 100;
+                longAudioProgress.style.width = `${progressPercent}%`;
+            }
+        });
+
+        if (longAudioProgressContainer) {
+            longAudioProgressContainer.addEventListener('click', (e) => {
+                const width = longAudioProgressContainer.clientWidth;
+                const clickX = e.offsetX;
+                if (longAudio.duration) {
+                    longAudio.currentTime = (clickX / width) * longAudio.duration;
+                }
+            });
+        }
     }
 }
