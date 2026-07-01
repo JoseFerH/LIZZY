@@ -267,7 +267,7 @@ function initGlowEffects() {
 function initPhrasesMechanic() {
     const phrases = [
         "Eres la persona más especial que conozco.",
-        "Gracias por aparecer y alegrar mis días con tu humor (CUANDO APARECES ;) ).",
+        "Gracias por aparecer y alegrar mis días con tu humor (Cuando Apareces ;) ).",
         "Te admiro, todo lo que sé de tí me hace tener un gran cariño por tí.",
         "Admiro muchísimo tu fuerza y tu corazón.",
         "Que nunca te falten motivos para seguir sonriendo.",
@@ -279,7 +279,7 @@ function initPhrasesMechanic() {
         "Tienes una forma de ver el mundo que me resulta completamente fascinante.",
         "No te lo digo lo suficiente, pero tu sola presencia me cambia el día.",
         "Eres de esas pocas personas que dejan una huella bonita sin siquiera intentarlo.",
-        "Me alegra tanto haber coincidido contigo en esta vida (A PESAR DE QUE TE CONOZCA POR POCO TIEMPO).",
+        "Me alegra tanto haber coincidido contigo en esta vida (A pesar de que te conozca por poco tiempo).",
         "Tienes un superpoder para hacerme sonreír incluso a la distancia.",
         "Cada conversación contigo me deja con ganas de seguir conociéndote más.",
         "Ojalá supieras lo mucho que vales y el impacto que causas en los demás.",
@@ -322,7 +322,7 @@ function initPhrasesMechanic() {
     ];
 
     window.TOTAL_PHRASES = phrases.length;
-    window.RECORD_PHRASE_VIEW = function(index) {
+    window.RECORD_PHRASE_VIEW = function (index) {
         let counts = JSON.parse(localStorage.getItem('lizzy_phrase_counts')) || {};
         counts[index] = (counts[index] || 0) + 1;
         localStorage.setItem('lizzy_phrase_counts', JSON.stringify(counts));
@@ -391,7 +391,7 @@ function initEasterEgg() {
     const easterAudio = document.getElementById('easter-audio');
     const explanationBtn = document.getElementById('explanation-btn');
     const explanationAudio = document.getElementById('explanation-audio');
-    
+
     const longAudioBtn = document.getElementById('play-long-audio');
     const longAudio = document.getElementById('long-audio');
     const longAudioProgress = document.getElementById('long-audio-progress');
@@ -554,7 +554,7 @@ function initEasterEgg() {
                     explanationBtn.innerText = "Gracias";
                     isPlayingExplanation = false;
                 }
-                longAudio.play().catch(() => {});
+                longAudio.play().catch(() => { });
                 longAudioBtn.innerText = "Pausa ⏸️";
             }
             isPlayingLongAudio = !isPlayingLongAudio;
